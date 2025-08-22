@@ -1,17 +1,53 @@
 package org.example;
-
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.List;
 public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+    private ArrayList<Planilla> Planillas = new ArrayList<>();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+
+    public void addPlanilla(Planilla unaPlanilla) throws PlanillaExistenteExcpetion {
+        for (Planilla p : Planillas) {
+            if (p.getID() == unaPlanilla.getID()) {
+                throw new PlanillaExistenteExcpetion(" la planilla con id " + unaPlanilla.getID()
+                        + " ya se encuentra en la lista");
+            }
         }
+        Planillas.add(unaPlanilla);
+    }
+    public int cantPlanillas(){
+        return Planillas.size();
+    }
+
+     public void removePlanilla(Planilla unaPlanilla){
+        Planillas.remove(unaPlanilla);
+     }
+
+     public Planilla editPlanilla(Planilla unaPlanilla, int idBusqueda){
+        for (Planilla p: Planillas){
+            if (p.getID()== idBusqueda) {
+                p.setNombre(nombre);
+
+            }
+        }
+     }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Main Gestor = new Main();
+        Planilla planilla1= new Planilla(1, "Levis", 3,30,"negra");
+        Planilla planilla2= new Planilla(2, "Levis", 3,30,"negra");
+        Planilla planilla3= new Planilla(1, "Levis", 3,30,"negra");
+
+        try {
+            Gestor.addPlanilla(planilla1);
+            Gestor.addPlanilla(planilla2);
+            Gestor.addPlanilla(planilla3);
+        }catch (PlanillaExistenteExcpetion e){
+            System.out.print("error" + e.getMessage() );
+        }
+
+
+
     }
 }
