@@ -54,4 +54,15 @@ public class Planilla {
     public void setPintura(String pintura) {
         this.pintura = pintura;
     }
+
+    @Override
+    public String toString() {
+        return "Planilla{" +
+                "ID=" + ID +
+                ", Nombre='" + Nombre + '\'' +
+                ", CantDeLavados=" + CantDeLavados +
+                ", cantidadCloro=" + cantidadCloro +
+                ", pintura='" + pintura + '\'' +
+                '}';
+    }
 }

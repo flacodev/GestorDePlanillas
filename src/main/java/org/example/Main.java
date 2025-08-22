@@ -23,30 +23,49 @@ public class Main {
         Planillas.remove(unaPlanilla);
      }
 
-     public Planilla editPlanilla(Planilla unaPlanilla, int idBusqueda){
-        for (Planilla p: Planillas){
-            if (p.getID()== idBusqueda) {
-                p.setNombre(nombre);
+     public Planilla findPlanilla(int IdBusqueda)throws PlanillaNoEncontradaException{
 
+        for (Planilla p: Planillas){
+            if (p.getID() == IdBusqueda){
+                return p;
             }
         }
+        throw new PlanillaNoEncontradaException("No existe la planilla con ID: " + IdBusqueda);
      }
+
+
+     //public Planilla editPlanilla(Planilla unaPlanilla, int idBusqueda){
+     //   for (Planilla p: Planillas){
+     //       if (p.getID()== idBusqueda) {
+     //           p.setNombre(nombre);
+//
+     //       }
+     //   }
+     //}
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Main Gestor = new Main();
         Planilla planilla1= new Planilla(1, "Levis", 3,30,"negra");
         Planilla planilla2= new Planilla(2, "Levis", 3,30,"negra");
-        Planilla planilla3= new Planilla(1, "Levis", 3,30,"negra");
+        Planilla planilla3= new Planilla(3, "Levis", 3,30,"negra");
 
         try {
             Gestor.addPlanilla(planilla1);
             Gestor.addPlanilla(planilla2);
             Gestor.addPlanilla(planilla3);
-        }catch (PlanillaExistenteExcpetion e){
-            System.out.print("error" + e.getMessage() );
-        }
+        }catch (PlanillaExistenteExcpetion e) {
+            System.out.print("error" + e.getMessage());
+        };
 
+        System.out.print("Ingrese ID de planilla: ");
+        int IDBusqueda = sc.nextInt();
+        try{
+            Planilla encontrada = Gestor.findPlanilla(IDBusqueda);
+            System.out.print(encontrada);
+        }catch (PlanillaNoEncontradaException e){
+            System.out.print(e.getMessage());
+        }
 
 
     }
