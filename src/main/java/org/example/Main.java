@@ -34,14 +34,27 @@ public class Main {
      }
 
 
-     //public Planilla editPlanilla(Planilla unaPlanilla, int idBusqueda){
-     //   for (Planilla p: Planillas){
-     //       if (p.getID()== idBusqueda) {
-     //           p.setNombre(nombre);
-//
-     //       }
-     //   }
-     //}
+    public boolean editPlanilla(int id, String nuevoNombre, int nuevoProcesoLavado, int nuevoCloro, String nuevaPintura) {
+        for (Planilla p : Planillas) {
+            if (p.getID() == id) {
+                if (nuevoNombre != null) p.setNombre(nuevoNombre);
+                if (nuevoProcesoLavado >= 0) p.setCantDeLavados(nuevoProcesoLavado);
+                if (nuevoCloro >= 0) p.setCantidadCloro(nuevoCloro);
+                if (nuevaPintura != null) p.setPintura(nuevaPintura);
+                return true; // edición exitosa
+            }
+        }
+        return false; // no encontrada
+    }
+
+    public Planilla mostrarPlanilla(int id) {
+        for (Planilla p : Planillas) {
+            if(p.getID() == id){
+                return p;
+            }
+        }
+        return null;
+    }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -67,6 +80,9 @@ public class Main {
             System.out.print(e.getMessage());
         }
 
+        Gestor.editPlanilla(1,"alfis",2,2, "blanco");
+        Planilla mostrarPlanilla = Gestor.mostrarPlanilla(1);
+        System.out.print(mostrarPlanilla);
 
     }
 }
