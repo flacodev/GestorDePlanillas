@@ -21,14 +21,11 @@ public class PlanillaPDF {
                 contentStream.beginText();
                 contentStream.setFont(fontOswald, 14);
                 contentStream.newLineAtOffset(100, 700);
-                contentStream.showText("Planilla de Lavado id: " + p.getID());
+                contentStream.showText("Planilla de Lavado ");
                 contentStream.endText();
-
                 contentStream.beginText();
                 contentStream.setFont(fontOswald, 12);
                 contentStream.newLineAtOffset(100, 650);
-                contentStream.showText("ID: " + p.getID());
-                contentStream.newLineAtOffset(0, -20);
                 contentStream.showText("Nombre: " + p.getNombre());
                 contentStream.newLineAtOffset(0, -20);
                 contentStream.showText("Lavados: " + p.getCantDeLavados());

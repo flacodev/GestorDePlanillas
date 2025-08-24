@@ -1,27 +1,21 @@
 package org.example;
 public class Planilla {
-    private int ID;
+
     private String Nombre;
     private int CantDeLavados;
-    private float cantidadCloro;
+    private int cantidadCloro;
     private String pintura;
 
 
-    public Planilla(int ID, String EsteNombre, int CantDeLavados, float cantidadCloro, String Pintura) {
-        this.ID = ID;
+    public Planilla( String EsteNombre, int CantDeLavados, int cantidadCloro, String Pintura) {
+
         this.CantDeLavados = CantDeLavados;
         this.cantidadCloro = cantidadCloro;
         this.Nombre = EsteNombre;
         this.pintura = Pintura;
     }
 
-    public int getID() {
-        return ID;
-    }
 
-    public void setID(int id) {
-        this.ID = id;
-    }
 
     public int getCantDeLavados() {
         return CantDeLavados;
@@ -31,11 +25,11 @@ public class Planilla {
         CantDeLavados = cantDeLavados;
     }
 
-    public float getCantidadCloro() {
+    public int getCantidadCloro() {
         return cantidadCloro;
     }
 
-    public void setCantidadCloro(float cantidadCloro) {
+    public void setCantidadCloro(int cantidadCloro) {
         this.cantidadCloro = cantidadCloro;
     }
 
@@ -58,7 +52,6 @@ public class Planilla {
     @Override
     public String toString() {
         return "Planilla{" +
-                "ID=" + ID +
                 ", Nombre='" + Nombre + '\'' +
                 ", CantDeLavados=" + CantDeLavados +
                 ", cantidadCloro=" + cantidadCloro +
