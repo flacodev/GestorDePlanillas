@@ -15,8 +15,6 @@ public class Planilla {
         this.pintura = Pintura;
     }
 
-
-
     public int getCantDeLavados() {
         return CantDeLavados;
     }
