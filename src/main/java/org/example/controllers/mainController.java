@@ -1,6 +1,7 @@
 package org.example.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import org.example.SistemaPlanilla;
  //controller de la view inicial
@@ -11,12 +12,25 @@ public class mainController {
         this.sistema = sistema;
     }
 
-    @FXML
-    private Label label;
+     // Vinculados al FXML con fx:id
+     @FXML
+     private Label titleLabel;
 
-    @FXML
-    //esto es una prueba de busqueda de planillas
-    private void buscarPlanilla() {
-        sistema.buscarUnaPlanilla();
-    }
+     @FXML
+     private Button addButton;
+
+     // Inicialización automática al cargar el FXML
+     @FXML
+     private void initialize() {
+         // Opcional: lógica inicial
+         titleLabel.setText("Procesadora MAS VIP");
+     }
+
+     // Acción del botón (onAction="#addPlanillaAction")
+     @FXML
+     private void addPlanillaAction() {
+         System.out.println("Botón 'Nueva Planilla' presionado.");
+         // Aquí podrías cargar otra vista con FXMLLoader
+         // o abrir una nueva ventana para la planilla
+     }
 }

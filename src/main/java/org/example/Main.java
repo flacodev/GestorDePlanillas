@@ -1,7 +1,9 @@
 package org.example;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.example.controllers.mainController;
 
@@ -25,6 +27,14 @@ public class Main extends Application {
 
         stage.setScene(scene);
         stage.setTitle("Planilla");
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+
+        stage.setX(screenBounds.getMinX());
+        stage.setY(screenBounds.getMinY());
+        stage.setWidth(screenBounds.getWidth());
+        stage.setHeight(screenBounds.getHeight());
+        stage.setMinWidth(1280);
+        stage.setMinHeight(720);
         stage.show();
 
     }
