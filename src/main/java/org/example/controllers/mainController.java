@@ -29,7 +29,8 @@ public class mainController {
      // Acción del botón (onAction="#addPlanillaAction")
      @FXML
      private void addPlanillaAction() {
-         System.out.println("Botón 'Nueva Planilla' presionado.");
+
+         sistema.crearPlanillaYGuardar();
          // Aquí podrías cargar otra vista con FXMLLoader
          // o abrir una nueva ventana para la planilla
      }
