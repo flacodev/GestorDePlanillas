@@ -11,7 +11,9 @@
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane prefHeight="1080.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.mainController">
+<BorderPane prefHeight="1080.0" xmlns="http://javafx.com/javafx/24.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.controllers.mainController">
    <top>
       <HBox prefHeight="80.0" prefWidth="1924.0" style="-fx-background-color: #025373;" BorderPane.alignment="CENTER">
          <opaqueInsets>
@@ -28,7 +30,7 @@
             </Label>
             <StackPane prefHeight="80.0" prefWidth="1006.0">
                <children>
-                  <Button id="addButton" fx:id="addButton" alignment="BASELINE_CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addPlanillaAction" style="-fx-background-color: #16a34a;" text="Nueva Planilla" textAlignment="CENTER" textFill="WHITE">
+                  <Button fx:id="addButton" onAction="#addPlanillaAction" alignment="BASELINE_CENTER" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-background-color: #16a34a;" text="Nueva Planilla" textAlignment="CENTER" textFill="WHITE" >
                      <font>
                         <Font name="Oswald Regular" size="27.0" />
                      </font>
