@@ -49,6 +49,7 @@ public class mainController {
          controllerForm.setSistema(sistema);
 
          Stage stage = new Stage();
+         stage.setResizable(false);
          stage.setTitle("Nueva Planilla");
          stage.setScene(new Scene(root));
          stage.show();
@@ -126,6 +127,7 @@ public class mainController {
             Stage stage = new Stage();
             stage.setTitle("Planilla");
             stage.setScene(new Scene(root));
+            stage.setResizable(false);
             stage.show();
             buscarPlanilla.clear();
 
