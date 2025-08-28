@@ -1,5 +1,6 @@
 package org.example;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -36,6 +37,8 @@ public class Main extends Application {
         stage.setMinWidth(1280);
         stage.setMinHeight(720);
         stage.show();
+
+
 
     }
 

@@ -143,7 +143,7 @@ public class SistemaPlanilla {
     }
 
     //Buscar planillas DE la BDD
-    public static void buscarPlanillaPorId(int id) {
+    public static Planilla buscarPlanillaPorId(int id) {
         String sql = "SELECT * FROM planillas WHERE id = ?";
         try (Connection conn = Database.establecerConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -152,19 +152,22 @@ public class SistemaPlanilla {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) { // Solo puede haber una fila
-                System.out.println("Planilla encontrada:");
-                System.out.printf("ID: %d | Nombre: %s | Lavados: %d | Cloro: %d | Pintura: %s%n",
-                        rs.getInt("id"),
+                // Creamos un objeto Planilla con los datos de la BDD
+                return new Planilla(
+
                         rs.getString("Nombre"),
                         rs.getInt("cantLavados"),
                         rs.getInt("cantCloro"),
-                        rs.getString("Pintura"));
+                        rs.getString("Pintura")
+                );
             } else {
-                System.out.println("No se encontró ninguna planilla con ese ID.");
+                // No se encontró ninguna planilla con ese ID
+                return null;
             }
 
         } catch (SQLException e) {
-            System.out.println("Error al buscar planilla: " + e.getMessage());
+            e.printStackTrace();
+            return null;
         }
     }
 
