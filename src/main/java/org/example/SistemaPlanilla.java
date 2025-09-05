@@ -1,4 +1,5 @@
 package org.example;
+import java.io.IOException;
 import java.sql.*;
 import java.util.Scanner;
 
@@ -198,6 +199,8 @@ public class SistemaPlanilla {
             e.printStackTrace();
         }
     }
-
+    public static void imprimirPlanilla(Planilla planilla, String rutaArchivo) throws IOException {
+        PlanillaPDF.GenerarPdf(planilla, rutaArchivo);
+    }
 
 }

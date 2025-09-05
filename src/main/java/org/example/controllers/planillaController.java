@@ -1,13 +1,20 @@
 package org.example.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.example.Planilla;
 import org.example.SistemaPlanilla;
+
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class planillaController {
 
@@ -54,6 +61,10 @@ public class planillaController {
     @FXML
     private ImageView deleteImage;
 
+    private Planilla getPlanilla(){
+        return sistema.buscarPlanillaPorId(planillaActualId);
+    }
+
     private int planillaActualId;
 
     // ========================
@@ -69,10 +80,25 @@ public class planillaController {
     }
 
     @FXML
-    private void GenerarPDFACTION(MouseEvent event) {
-        // Lógica para generar PDF
-        System.out.println("Generando PDF...");
-    }
+    private void GenerarPDFACTION() throws IOException {
+
+            Stage stage = (Stage) ImprimirBTN.getScene().getWindow();
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar Planilla en PDF");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf"));
+            fileChooser.setInitialFileName("Planilla-" + planillaActualId + ".pdf");
+
+            File file = fileChooser.showSaveDialog(stage);
+
+            if (file != null) {
+                String path = file.getAbsolutePath();
+                if (!path.toLowerCase().endsWith(".pdf")) path += ".pdf";
+
+                sistema.imprimirPlanilla(getPlanilla(), path);
+            }
+        }
+
 
     @FXML
     private void deleteBtnAction() {

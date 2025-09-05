@@ -61,7 +61,8 @@ public class Main extends Application {
 
 
         //generador de pdf
-        //PlanillaPDF.GenerarPdf(planilla1, "planilla.pdf");
+        //PlanillaPDF.GenerarPdf(planilla1, y planillanombre
+        // );
 
 
     }

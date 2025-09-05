@@ -65,7 +65,7 @@
             <Region prefHeight="102.0" prefWidth="5.0" />
             <StackPane prefHeight="102.0" prefWidth="80.0">
                <children>
-                  <Button fx:id="ImprimirBTN" contentDisplay="CENTER" mnemonicParsing="false" onAction="#GenerarPDFACTION" prefHeight="45.0" prefWidth="50.0" style="-fx-background-color: #16a34a;" textFill="WHITE">
+                  <Button fx:id="ImprimirBTN" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#GenerarPDFACTION" prefHeight="45.0" prefWidth="50.0" style="-fx-background-color: #16a34a;" textFill="WHITE">
                      <font>
                         <Font name="Oswald Regular" size="18.0" />
                      </font>
