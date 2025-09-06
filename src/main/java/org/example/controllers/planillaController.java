@@ -1,7 +1,10 @@
 package org.example.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,6 +22,7 @@ import java.io.IOException;
 public class planillaController {
 
     private SistemaPlanilla sistema;
+    private Planilla planilla;
 
     //dsp se usa
     public void setSistema(SistemaPlanilla sistema) {
@@ -71,12 +75,47 @@ public class planillaController {
     // Métodos de acción
     // ========================
 
+
     @FXML
     private void guardarYAgregarPlanilla(MouseEvent event) {
         // Aquí pones la lógica para guardar la planilla
         System.out.println("Guardando planilla...");
         // Ejemplo: actualizar un label
         PlanillaIDLabel.setText("Planilla: 1234");
+    }
+
+    @FXML
+    private void editarPlanilla() {
+        Planilla planilla = getPlanilla();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/datos.fxml"));
+            Parent root = loader.load();
+
+            // obtener controlador de la nueva vista
+            datosController controller = loader.getController();
+
+
+            // pasar datos actuales al formulario de edición
+            controller.initData(
+                    planillaActualId,
+                    planilla.getNombre(),
+                    planilla.getCantDeLavados(),
+                    planilla.getCantidadCloro(),
+                    planilla.getPintura()
+            );
+
+            // PASAR referencia del controlador principal
+            controller.setMainController(this);
+
+            // abrir nueva ventana
+            Stage stage = new Stage();
+            stage.setTitle("Editar Planilla");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -139,5 +178,9 @@ public class planillaController {
     public void setPlanillaID(int id) {
         planillaActualId = id;
         PlanillaIDLabel.setText("Planilla: " + id);
+    }
+
+    public void setPlanilla(Planilla planilla) {
+        this.planilla = planilla;
     }
 }

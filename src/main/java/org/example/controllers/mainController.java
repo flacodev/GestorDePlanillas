@@ -1,6 +1,7 @@
 package org.example.controllers;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,6 +37,11 @@ public class mainController {
     @FXML
     private VBox vboxPlanillas;
 
+    @FXML
+    private Button anteriorBTN;
+
+    @FXML
+    private Button siguienteBTN;
 
 
 
@@ -145,4 +151,19 @@ public class mainController {
         }
 
 
-}}
+}
+
+    @FXML
+    private void pagAnterior(ActionEvent event) {
+        // acá poné la lógica que quieras, por ejemplo retroceder página
+    }
+
+    @FXML
+    private void pagSiguiente(ActionEvent event) {
+        // acá poné la lógica que quieras, por ejemplo retroceder página
+    }
+    
+}
+
+
+

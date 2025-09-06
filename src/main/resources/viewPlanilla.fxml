@@ -42,7 +42,7 @@
             <Region prefHeight="102.0" prefWidth="191.0" />
             <StackPane prefHeight="102.0" prefWidth="80.0">
                <children>
-                  <Button fx:id="guardarPlanillabtn" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#guardarYAgregarPlanilla" prefHeight="45.0" prefWidth="50.0" style="-fx-background-color: #16a34a;" textFill="WHITE" StackPane.alignment="CENTER">
+                  <Button fx:id="editarPlanillabtn" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#editarPlanilla" prefHeight="45.0" prefWidth="50.0" style="-fx-background-color: #16a34a;" textFill="WHITE" StackPane.alignment="CENTER">
                      <font>
                         <Font name="Oswald Regular" size="18.0" />
                      </font>

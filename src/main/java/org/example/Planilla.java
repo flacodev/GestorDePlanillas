@@ -1,6 +1,5 @@
 package org.example;
 public class Planilla {
-
     private String Nombre;
     private int CantDeLavados;
     private int cantidadCloro;
@@ -46,6 +45,7 @@ public class Planilla {
     public void setPintura(String pintura) {
         this.pintura = pintura;
     }
+
 
     @Override
     public String toString() {
