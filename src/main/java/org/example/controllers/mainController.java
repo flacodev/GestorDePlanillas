@@ -1,81 +1,64 @@
 package org.example.controllers;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.Planilla;
 import org.example.SistemaPlanilla;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.List;
 
-//controller de la view inicial
 public class mainController {
-     private SistemaPlanilla sistema;
+    private SistemaPlanilla sistema;
 
-     //dsp se usa
-     public void setSistema(SistemaPlanilla sistema) {
-         this.sistema = sistema;
-     }
+    // === ELEMENTOS DE LA TABLA ===
+    @FXML private TableView<Planilla> tableviewPlanilla;
+    @FXML private TableColumn<Planilla, Integer> colID;
+    @FXML private TableColumn<Planilla, String> colName;
 
-     // Vinculados al FXML con fx:id
-     @FXML
-     private Label titleLabel;
+    // === ELEMENTOS DEL HEADER ===
+    @FXML private Label titleLabel;
+    @FXML private Button addButton;
+    @FXML private TextField buscarPlanilla;
 
-     @FXML
-     private Button addButton;
-
-    @FXML
-    private VBox vboxPlanillas;
-
-    @FXML
-    private Button anteriorBTN;
-
-    @FXML
-    private Button siguienteBTN;
-
-
-
-     // Acción del botón (onAction="#addPlanillaAction")
-     @FXML
-     private void addPlanillaAction() throws IOException {
-
-         FXMLLoader loader = new FXMLLoader(getClass().getResource("/formulario.fxml"));
-         Parent root = loader.load();
-
-         // Obtener el controlador del formulario
-         formController controllerForm = loader.getController();
-
-         // Le paso una referencia a SistemaPlanillas (o al controlador principal)
-         controllerForm.setSistema(sistema);
-
-         Stage stage = new Stage();
-         stage.setResizable(false);
-         stage.setTitle("Nueva Planilla");
-         stage.setScene(new Scene(root));
-         stage.show();
-
-         //quita el foco del primer textfield para que este en el root
-         Platform.runLater(() -> root.requestFocus());
-         // Aquí podrías cargar otra vista con FXMLLoader
-         // o abrir una nueva ventana para la planilla
-     }
-
-
-    @FXML
-    private TextField buscarPlanilla; // campo donde el usuario ingresa el ID
+    public void setSistema(SistemaPlanilla sistema) {
+        this.sistema = sistema;
+        cargarDatosTabla(); // Llama a la BD cuando la app arranca
+    }
 
     @FXML
     public void initialize() {
+        // Conecta la interfaz visual con los atributos de tu clase Planilla
+        colID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
+
+
+
+        // Lógica de Doble Clic en la fila
+        tableviewPlanilla.setRowFactory(tv -> {
+            TableRow<Planilla> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    Planilla planillaSeleccionada = row.getItem();
+                    try {
+                        abrirVentanaPlanilla(planillaSeleccionada);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            return row;
+        });
+
+        // Evento del buscador original
         buscarPlanilla.setOnAction(e -> {
             try {
                 btnBuscarPlanillaAction();
@@ -83,87 +66,91 @@ public class mainController {
                 throw new RuntimeException(ex);
             }
         });
+
         Platform.runLater(() -> addButton.requestFocus());
     }
 
+    // Método que pide las planillas a la base de datos y las pone en pantalla
+    public void cargarDatosTabla() {
+        if (sistema != null) {
+            List<Planilla> lista = SistemaPlanilla.obtenerTodasLasPlanillas();
+            System.out.println("Planillas encontradas en SQLite: " + lista.size()); // <-- LÍNEA CLAVE
+            ObservableList<Planilla> datosObservable = FXCollections.observableArrayList(lista);
+            tableviewPlanilla.setItems(datosObservable);
+        }
+    }
 
+    // Método auxiliar para abrir la ventana (usado por el buscador y el doble clic)
+    private void abrirVentanaPlanilla(Planilla planilla) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/viewPlanilla.fxml"));
+        Parent root = loader.load();
+
+        planillaController controllerPlanilla = loader.getController();
+        controllerPlanilla.setSistema(sistema);
+        controllerPlanilla.setMainController(this);
+
+        // Envía los datos a la nueva ventana
+        controllerPlanilla.setPlanillaID(planilla.getId());
+        controllerPlanilla.setNombre(String.valueOf(planilla.getNombre()));
+        controllerPlanilla.setCantLavados(String.valueOf(planilla.getCantDeLavados()));
+        controllerPlanilla.setCantCloro(String.valueOf(planilla.getCantidadCloro()));
+        controllerPlanilla.setPintura(planilla.getPintura());
+
+        Stage stage = new Stage();
+        stage.setTitle("Planilla - " + planilla.getNombre());
+        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    // Acción del botón buscar planilla
     @FXML
     private void btnBuscarPlanillaAction() throws IOException {
         String input = buscarPlanilla.getText().trim();
-        int id;
-
         try {
-            id = Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "El ID debe ser un número válido");
-            alert.setTitle("Error");
-            alert.setHeaderText("ID inválido");
-            alert.showAndWait();
-            buscarPlanilla.clear();
-            Platform.runLater(() -> addButton.requestFocus());
-            return;
-
-
-        }
-
-        try {
+            int id = Integer.parseInt(input);
             Planilla planilla = SistemaPlanilla.buscarPlanillaPorId(id);
 
             if (planilla == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "No se encontró ninguna planilla con el ID: " + id);
                 alert.setTitle("Error");
-                alert.setHeaderText("Planilla no encontrada");
                 alert.showAndWait();
                 buscarPlanilla.clear();
-                Platform.runLater(() -> addButton.requestFocus());
-
-
                 return;
-
             }
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/viewPlanilla.fxml"));
-            Parent root = loader.load();
-
-            planillaController controllerPlanilla = loader.getController();
-            controllerPlanilla.setSistema(sistema);
-
-            controllerPlanilla.setPlanillaID(id);
-            controllerPlanilla.setNombre(String.valueOf(planilla.getNombre()));
-            controllerPlanilla.setCantLavados(String.valueOf(planilla.getCantDeLavados()));
-            controllerPlanilla.setCantCloro(String.valueOf(planilla.getCantidadCloro()));
-            controllerPlanilla.setPintura(planilla.getPintura());
-
-            Stage stage = new Stage();
-            stage.setTitle("Planilla");
-            stage.setScene(new Scene(root));
-            stage.setResizable(false);
-            stage.show();
+            abrirVentanaPlanilla(planilla);
             buscarPlanilla.clear();
-
-
             Platform.runLater(() -> addButton.requestFocus());
-        } catch (IOException e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Error al abrir la ventana: " + e.getMessage());
+
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "El ID debe ser un número válido");
+            alert.setTitle("Error");
             alert.showAndWait();
-
+            buscarPlanilla.clear();
         }
+    }
+
+    // Acción del botón Nueva Planilla
+    @FXML
+    private void addPlanillaAction() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/formulario.fxml"));
+        Parent root = loader.load();
+
+        formController controllerForm = loader.getController();
+        controllerForm.setSistema(sistema);
+        controllerForm.setMainController(this);
+
+        Stage stage = new Stage();
+        stage.setResizable(false);
+        stage.setTitle("Nueva Planilla");
+        stage.setScene(new Scene(root));
+        stage.show();
+
+        Platform.runLater(root::requestFocus);
+    }
 
 
 }
-
-    @FXML
-    private void pagAnterior(ActionEvent event) {
-        // acá poné la lógica que quieras, por ejemplo retroceder página
-    }
-
-    @FXML
-    private void pagSiguiente(ActionEvent event) {
-        // acá poné la lógica que quieras, por ejemplo retroceder página
-    }
-    
-}
-
 
 

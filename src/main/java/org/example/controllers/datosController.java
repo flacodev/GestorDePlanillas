@@ -42,6 +42,8 @@ public class datosController {
             mainController.setCantLavados(String.valueOf(nuevoCantLavados));
             mainController.setCantCloro(String.valueOf(nuevoCantCloro));
             mainController.setPintura(nuevaPintura);
+
+            mainController.actualizarTablaPrincipal();//refrescar
         }
 
         Stage stage = (Stage) nombrePlanilla.getScene().getWindow();

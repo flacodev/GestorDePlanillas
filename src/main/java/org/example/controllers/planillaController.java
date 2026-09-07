@@ -29,6 +29,12 @@ public class planillaController {
         this.sistema = sistema;
     }
 
+    private mainController mainControllerRef;
+
+    public void setMainController(mainController mainController) {
+        this.mainControllerRef = mainController;
+    }
+
     // Labels del header y centro
     @FXML
     private Label PlanillaIDLabel;
@@ -88,7 +94,7 @@ public class planillaController {
     private void editarPlanilla() {
         Planilla planilla = getPlanilla();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/datos.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Datos.fxml"));
             Parent root = loader.load();
 
             // obtener controlador de la nueva vista
@@ -152,6 +158,10 @@ public class planillaController {
 
         sistema.eliminarPlanilla(planillaActualId);
 
+        if (mainControllerRef != null) {
+            mainControllerRef.cargarDatosTabla(); // refresh
+        }
+
         Stage stage = (Stage) Nombrelabel.getScene().getWindow();
         stage.close();
     }
@@ -183,4 +193,11 @@ public class planillaController {
     public void setPlanilla(Planilla planilla) {
         this.planilla = planilla;
     }
+
+    public void actualizarTablaPrincipal() {
+        if (mainControllerRef != null) {
+            mainControllerRef.cargarDatosTabla();
+        }
+    }
+
 }

@@ -1,5 +1,6 @@
 package org.example;
 public class Planilla {
+    private int id;
     private String Nombre;
     private int CantDeLavados;
     private int cantidadCloro;
@@ -12,6 +13,22 @@ public class Planilla {
         this.cantidadCloro = cantidadCloro;
         this.Nombre = EsteNombre;
         this.pintura = Pintura;
+    }
+    //constructor para sqlite con el id
+    public Planilla(int id, String Nombre, int CantDeLavados, int cantidadCloro, String pintura) {
+        this.id = id;
+        this.Nombre = Nombre;
+        this.CantDeLavados = CantDeLavados;
+        this.cantidadCloro = cantidadCloro;
+        this.pintura = pintura;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getCantDeLavados() {

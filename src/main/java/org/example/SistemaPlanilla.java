@@ -2,6 +2,12 @@ package org.example;
 import java.io.IOException;
 import java.sql.*;
 import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SistemaPlanilla {
 
@@ -155,7 +161,7 @@ public class SistemaPlanilla {
             if (rs.next()) { // Solo puede haber una fila
                 // Creamos un objeto Planilla con los datos de la BDD
                 return new Planilla(
-
+                        rs.getInt("id"),
                         rs.getString("Nombre"),
                         rs.getInt("cantLavados"),
                         rs.getInt("cantCloro"),
@@ -203,4 +209,37 @@ public class SistemaPlanilla {
         PlanillaPDF.GenerarPdf(planilla, rutaArchivo);
     }
 
+
+
+    public static List<Planilla> obtenerTodasLasPlanillas() {
+        List<Planilla> lista = new ArrayList<>();
+        String sql = "SELECT * FROM Planillas";
+
+
+        try (Connection conn = Database.establecerConexion();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                Planilla p = new Planilla(
+                        rs.getInt("id"),
+                        rs.getString("Nombre"),
+                        rs.getInt("cantLavados"),
+                        rs.getInt("cantCloro"),
+                        rs.getString("Pintura")
+                );
+                lista.add(p);
+            }
+        } catch (SQLException e) {
+            // ESTO HARÁ QUE SALTE UN CARTEL ROJO CON EL ERROR EXACTO DE SQL
+            javafx.application.Platform.runLater(() -> {
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+                alert.setTitle("Error SQL");
+                alert.setHeaderText("Falló obtenerTodasLasPlanillas");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+            });
+        }
+        return lista;
+    }
 }

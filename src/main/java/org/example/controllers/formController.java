@@ -20,6 +20,12 @@ public class formController {
         this.sistema = sistema;
     }
 
+    private mainController mainControllerRef;
+
+    public void setMainController(mainController mainController) {
+        this.mainControllerRef = mainController;
+    }
+
     @FXML
     private Region focusRegion;
 
@@ -45,6 +51,10 @@ public class formController {
 
             Planilla p = new Planilla(nombre, lavados, cloro, pinturaStr);
             SistemaPlanilla.addPlanilla(p);
+
+            if (mainControllerRef != null) {
+                mainControllerRef.cargarDatosTabla(); // refresh
+            }
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Éxito");
