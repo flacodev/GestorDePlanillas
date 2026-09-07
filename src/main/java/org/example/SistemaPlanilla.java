@@ -150,7 +150,7 @@ public class SistemaPlanilla {
     }
 
     //Buscar planillas DE la BDD
-    public static Planilla buscarPlanillaPorId(int id) {
+    public static Planilla buscarPlanillaPorId(int id) throws PlanillaNoEncontradaException {
         String sql = "SELECT * FROM planillas WHERE id = ?";
         try (Connection conn = Database.establecerConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -169,17 +169,16 @@ public class SistemaPlanilla {
                 );
             } else {
                 // No se encontró ninguna planilla con ese ID
-                return null;
+                throw new PlanillaNoEncontradaException("No existe la planilla con ID: " + id);
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new PlanillaNoEncontradaException("Error en la base de datos: " + e.getMessage());
         }
     }
 
     //*---FUNCION PUENTE PARA BUSCAR PLANILLA SELECCIONADA DESDE TECLADO---*
-    public static void buscarUnaPlanilla() {
+    public static void buscarUnaPlanilla() throws PlanillaNoEncontradaException {
         Scanner sc = new Scanner(System.in);
         System.out.print("Ingrese el ID de la planilla a buscar: ");
         int id = sc.nextInt();

@@ -65,7 +65,7 @@
    <center>
       <TableView fx:id="tableviewPlanilla" prefHeight="858.0" prefWidth="1534.0">
         <columns>
-          <TableColumn fx:id="colID" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="75.0" style="-fx-font-size: 20px; -fx-font-family: 'Oswald'; -fx-alignment: CENTER;"  text="ID Planilla" />
+          <TableColumn fx:id="colID" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="75.0" style="-fx-font-size: 20px; -fx-font-family: 'Oswald'; -fx-alignment: CENTER;" text="ID Planilla" />
           <TableColumn fx:id="colName" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="75.0" style="-fx-font-size: 20px; -fx-font-family: 'Oswald'; -fx-alignment: CENTER;" text="Nombre Planilla" />
         </columns>
          <columnResizePolicy>

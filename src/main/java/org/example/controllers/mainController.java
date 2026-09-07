@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.Planilla;
+import org.example.PlanillaNoEncontradaException;
 import org.example.SistemaPlanilla;
 
 import java.io.IOException;
@@ -111,24 +112,17 @@ public class mainController {
             int id = Integer.parseInt(input);
             Planilla planilla = SistemaPlanilla.buscarPlanillaPorId(id);
 
-            if (planilla == null) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "No se encontró ninguna planilla con el ID: " + id);
-                alert.setTitle("Error");
-                alert.showAndWait();
-                buscarPlanilla.clear();
-                return;
-            }
 
             abrirVentanaPlanilla(planilla);
             buscarPlanilla.clear();
             Platform.runLater(() -> addButton.requestFocus());
 
-        } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "El ID debe ser un número válido");
-            alert.setTitle("Error");
-            alert.showAndWait();
-            buscarPlanilla.clear();
-        }
+            } catch (PlanillaNoEncontradaException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.setTitle("Error");
+                alert.showAndWait();
+                buscarPlanilla.clear();
+            }
     }
 
     // Acción del botón Nueva Planilla

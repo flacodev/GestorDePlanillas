@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.example.Planilla;
+import org.example.PlanillaNoEncontradaException;
 import org.example.SistemaPlanilla;
 
 import java.awt.event.ActionEvent;
@@ -71,7 +72,7 @@ public class planillaController {
     @FXML
     private ImageView deleteImage;
 
-    private Planilla getPlanilla(){
+    private Planilla getPlanilla() throws PlanillaNoEncontradaException {
         return sistema.buscarPlanillaPorId(planillaActualId);
     }
 
@@ -91,7 +92,7 @@ public class planillaController {
     }
 
     @FXML
-    private void editarPlanilla() {
+    private void editarPlanilla() throws PlanillaNoEncontradaException {
         Planilla planilla = getPlanilla();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Datos.fxml"));
@@ -125,7 +126,7 @@ public class planillaController {
     }
 
     @FXML
-    private void GenerarPDFACTION() throws IOException {
+    private void GenerarPDFACTION() throws IOException, PlanillaNoEncontradaException {
 
             Stage stage = (Stage) ImprimirBTN.getScene().getWindow();
 
