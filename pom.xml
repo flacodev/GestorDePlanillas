@@ -13,14 +13,13 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
             <version>3.0.5</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -44,12 +43,21 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
+            <version>24.1.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
+            <!--
+                Este plugin es el único que necesitás para correr la app.
+                Se encarga de armar el -module-path y -add-modules
+                correctamente para JavaFX, algo que "java -jar" no sabe hacer solo.
+
+                Para correr el proyecto (en cualquier PC con JDK 21 + Maven):
+                    mvn clean javafx:run
+            -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
@@ -60,4 +68,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
